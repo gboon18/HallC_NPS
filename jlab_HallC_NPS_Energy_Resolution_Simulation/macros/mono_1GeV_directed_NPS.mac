@@ -1,0 +1,58 @@
+/control/verbose 2
+/run/verbose 2
+
+#
+#randomization control
+#/random/setSeeds 0 1
+#
+#This is from TestEm9 20171019
+#must be intiated before /run/initialize
+/testem/phys/addPhysics  emstandard
+#
+/run/initialize
+#
+/process/list
+#
+#/grdm/selectVolume Target
+#/grdm/allVolumes
+#
+#20170208##################taken from test31.g4mac
+##20170307###################################
+# both guns will be fired at the same time
+#/gps/source/clear
+##############################################
+
+/gps/source/intensity 1
+
+/gps/particle gamma
+/gps/pos/type Point
+/gps/ene/mono 1 GeV
+/gps/pos/centre 0.  0. +1000. mm
+
+/gps/ang/type iso
+#/gps/ang/minphi 0 rad
+#/gps/ang/maxphi 360 deg
+#I do not know why but the beam center is in "-z" direction
+#you have to turn the beam 180 deg around
+/gps/ang/mintheta 180 deg
+#/gps/ang/maxtheta 187.3330 deg
+/gps/ang/maxtheta 190.1586779 deg
+
+#/gps/ang/minphi 231 deg
+#/gps/ang/maxphi 309 deg
+#/gps/ang/mintheta 267.5 deg
+#/gps/ang/maxtheta 272.5 deg
+
+
+##############################################
+##############################################
+/gps/source/multiplevertex true
+##because of multipevetex, Radioactive decay products part is commented out 20170309
+##############################################
+/gps/source/list
+
+
+################
+#
+/run/printProgress 1
+/run/beamOn 250

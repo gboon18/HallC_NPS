@@ -1,0 +1,61 @@
+/control/verbose 2
+/run/verbose 2
+
+#
+#randomization control
+/random/setSeeds 0 1
+#
+#This is from TestEm9 20171019
+#must be intiated before /run/initialize
+/testem/phys/addPhysics  emstandard
+#
+/run/initialize
+#
+/process/list
+#
+#/grdm/selectVolume Target
+#/grdm/allVolumes
+#
+#20170208##################taken from test31.g4mac
+##20170307###################################
+# both guns will be fired at the same time
+#/gps/source/clear
+##############################################
+
+/gps/source/intensity 1
+
+#/gps/particle ion
+#/gps/ion 27 60 0 0
+/gps/particle e-
+/gps/pos/type Point
+#/gps/pos/type Plane
+#/gps/pos/shape Circle
+/gps/ene/mono 1 GeV
+#/gps/pos/centre 0. -290. -110. mm
+#/gps/pos/centre 0. 0. 200. mm
+#/gps/pos/centre 0.  0. -300. mm
+/gps/pos/centre 419.6  10. 2670. mm
+#/gps/pos/radius 1. mm
+
+#2.70 degree tillted
+#/gps/direction	0.04710645071 0. 0.998889875 
+#7.93 degree tillted
+#/gps/direction	0.1386545788 0. 0.9903408039 
+#8.93 degree tillted
+/gps/direction	0.1552276596 0. 0.9878787242 
+#/gps/direction	0. 0. 1.
+#/gps/ang/type iso
+
+
+##############################################
+##############################################
+/gps/source/multiplevertex true
+##because of multipevetex, Radioactive decay products part is commented out 20170309
+##############################################
+/gps/source/list
+
+
+################
+#
+/run/printProgress 1
+/run/beamOn 1
