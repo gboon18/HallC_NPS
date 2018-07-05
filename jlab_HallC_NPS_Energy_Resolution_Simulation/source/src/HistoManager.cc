@@ -86,18 +86,18 @@ void HistoManager::Book(G4String fileName)
   
   fNtuple = new TTree("t","Energy deposition and OP in crystas");
   fNtuple->Branch("edep", fEdep, "energy_deposition[1116]/D");
-  fNtuple->Branch("pid", fPID, "PID[1116]/I");
+  // fNtuple->Branch("pid", fPID, "PID[1116]/I");
   fNtuple->Branch("sc", fOP_sc, "scintillated OP[1116]/I");
-  fNtuple->Branch("ce", fOP_ce, "cerenkov OP[1116]/I");
+  // fNtuple->Branch("ce", fOP_ce, "cerenkov OP[1116]/I");
   fNtuple->Branch("op_cover", fOP_cover, "OP on the side of the crystal wrapper[1116]/I");
   fNtuple->Branch("op_frontcover", fOP_frontcover, "OP on the front side of the crystal wrapper[1116]/I");
   fNtuple->Branch("op_pc", fOP_pmtcover, "OP arrived at the pmt cover[1116]/I");
 
-  fNtuple->Branch("PT", &fPrimaryTime, "Primary vertex time/D");
-  fNtuple->Branch("PPID", &fPrimaryPID, "Primary vertex PID/I");
-  fNtuple->Branch("PP", fPrimaryPos, "Primary vertex Position[3]/D");
-  fNtuple->Branch("PM", fPrimaryMom, "Primary vertex Momentum[3]/D");
-  fNtuple->Branch("PE", &fPrimaryEnergy, "Primary vertex Energy/D");
+  // fNtuple->Branch("PT", &fPrimaryTime, "Primary vertex time/D");
+  // fNtuple->Branch("PPID", &fPrimaryPID, "Primary vertex PID/I");
+  // fNtuple->Branch("PP", fPrimaryPos, "Primary vertex Position[3]/D");
+  // fNtuple->Branch("PM", fPrimaryMom, "Primary vertex Momentum[3]/D");
+  // fNtuple->Branch("PE", &fPrimaryEnergy, "Primary vertex Energy/D");
 
   G4cout << "\n----> Output file is open in " << fileName << G4endl;
 
