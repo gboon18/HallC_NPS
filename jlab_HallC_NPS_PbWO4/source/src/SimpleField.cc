@@ -16,7 +16,7 @@ SimpleField::SimpleField(G4double SM_theta, G4double field_str)
   str = field_str;
   // first things first, let's read the data from the file
   // hardwired for now, later we'll see.
-  const char * filename_1cm ="/sps/clas/hosanko/NPS/manetic_field_table/bogdan/1cm/SAM-Mc.table";
+  const char * filename_1cm ="/work/hallc/nps/hosan/SAM-Mc.table";
   double lenUnit= cm;
   G4cout << "\n-----------------------------------------------------------"
 	 << "\n      3D Magnetic field from TOSCA MODEL (BW) "
