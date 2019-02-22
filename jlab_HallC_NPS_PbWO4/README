@@ -1,3 +1,27 @@
+How to run
+Compile it in your build directory (e.g. /build)
+In /build, you will have /macros/vis.mac
+/macros/vis.mac visualize the simulation.
+You can run a simulation with macro files such as /macros/mono_11GeV.mac(not the one in the build directory)(11GeV electron beam hitting the target with 1e7 events).
+
+In "/build" directory after compilation,
+"./AnaEx02" is the executable.
+When you run ("./AnaEx02" for the visualization. "./AnaEx02 {macro name}" for the event generation),
+it will ask several variables for the simulation;
+-gap between the crystals (please set the value higher than 0. Otherwise, it will crash)
+-distance of the calorimeter from the target
+-center of the calorimeter angle from the beam-pipe
+-magnetic field "ON" "OFF" option (set field strength to "1" when you turn the field ON)
+-name of the output file (e.g. "test.root")
+-random seeds number #1, #2, #3
+
+The optical-photon(scintillation inside the crystals) generation is "ON", so the simulation is very slow.
+If you want them to be "OFF" you have to manually comment-out the optical photon physics in "source/src/PhysicsLists.cc"
+"#include "G4OpticalPhysics.hh"" and "fOptPhysicsList"
+--I know it is cumbersome and I will update it to be easily turn "ON" and "OFF"-able if needed in the future like magnetic field.
+
+
+
 20180709
 Using Bogdan's magnetic fields.
 Target Length : 10cm.
