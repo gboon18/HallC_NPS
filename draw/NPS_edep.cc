@@ -29,7 +29,9 @@
   TCanvas* c1 = new TCanvas("c1", "", 200, 10, 1000, 500);
   c1->Divide(2,1);
   c1->cd(1);
+  h_edep->SetTitle("Total energy depostition in each crystal");
   h_edep->Draw("colz");
   c1->cd(2);
+  h_op->SetTitle("Total scintillated photon collected in each PMT");
   h_op->Draw("colz");
 }
