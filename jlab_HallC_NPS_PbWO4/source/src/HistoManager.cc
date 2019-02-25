@@ -83,11 +83,11 @@ void HistoManager::Book(G4String fileName)
   
   fNtuple = new TTree("t","Energy deposition and OP in crystas");
   fNtuple->Branch("edep", fEdep, "energy_deposition[1080]/D");//20171017(changed from"energy_deposition[1080]/F"<--does not work!!!)
-  fNtuple->Branch("sc", fOP_sc, "scintillated OP[1116]/I");
-  fNtuple->Branch("ce", fOP_ce, "cerenkov OP[1116]/I");
-  fNtuple->Branch("op_cover", fOP_cover, "OP on the side of the crystal wrapper[1116]/I");
-  fNtuple->Branch("op_frontcover", fOP_frontcover, "OP on the front side of the crystal wrapper[1116]/I"); 
-  fNtuple->Branch("op_pc", fOP_pmtcover, "OP arrived at the pmt cover[1116]/I");
+  fNtuple->Branch("sc", fOP_sc, "scintillated OP[1080]/I");
+  fNtuple->Branch("ce", fOP_ce, "cerenkov OP[1080]/I");
+  fNtuple->Branch("op_cover", fOP_cover, "OP on the side of the crystal wrapper[1080]/I");
+  fNtuple->Branch("op_frontcover", fOP_frontcover, "OP on the front side of the crystal wrapper[1080]/I"); 
+  fNtuple->Branch("op_pc", fOP_pmtcover, "OP arrived at the pmt cover[1080]/I");
   G4cout << "\n----> Output file is open in " << fileName << G4endl;
 
 }
