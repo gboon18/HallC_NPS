@@ -46,12 +46,14 @@
 HistoManager::HistoManager()
   :fRootFile(0),
    fNtuple(0),
+   fNtuple_Flux(0),
    fPrimaryTime(-999.),
    fPrimaryPID(-999),
-   fPrimaryEnergy(-999.)
+   fPrimaryEnergy(-999.),
+   fEvtNb(0)
+
 {
   fEdep[MaxNtuple] = {0.};
-  fPID[MaxNtuple] = {0};
   fOP_sc[MaxNtuple] = {0};
   fOP_ce[MaxNtuple] = {0};
   fOP_cover[MaxNtuple] = {0};
@@ -60,6 +62,11 @@ HistoManager::HistoManager()
 
   fPrimaryPos[3] = {-999.};
   fPrimaryMom[3] = {-999.};
+
+  fFluxEne[MaxNtuple] = {0.};
+  fFluxPos_X[MaxNtuple] = {0.};
+  fFluxPos_Y[MaxNtuple] = {0.};
+  fFluxPos_Z[MaxNtuple] = {0.};
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -85,19 +92,26 @@ void HistoManager::Book(G4String fileName)
   }
   
   fNtuple = new TTree("t","Energy deposition and OP in crystas");
-  fNtuple->Branch("edep", fEdep, "energy_deposition[1116]/D");
-  // fNtuple->Branch("pid", fPID, "PID[1116]/I");
-  fNtuple->Branch("sc", fOP_sc, "scintillated OP[1116]/I");
-  // fNtuple->Branch("ce", fOP_ce, "cerenkov OP[1116]/I");
-  fNtuple->Branch("op_cover", fOP_cover, "OP on the side of the crystal wrapper[1116]/I");
-  fNtuple->Branch("op_frontcover", fOP_frontcover, "OP on the front side of the crystal wrapper[1116]/I");
-  fNtuple->Branch("op_pc", fOP_pmtcover, "OP arrived at the pmt cover[1116]/I");
+  fNtuple->Branch("edep", fEdep, "energy_deposition[1080]/D");
+  fNtuple->Branch("sc", fOP_sc, "scintillated OP[1080]/I");
+  // fNtuple->Branch("ce", fOP_ce, "cerenkov OP[1080]/I");
+  fNtuple->Branch("op_cover", fOP_cover, "OP on the side of the crystal wrapper[1080]/I");
+  fNtuple->Branch("op_frontcover", fOP_frontcover, "OP on the front side of the crystal wrapper[1080]/I");
+  fNtuple->Branch("op_pc", fOP_pmtcover, "OP arrived at the pmt cover[1080]/I");
 
   // fNtuple->Branch("PT", &fPrimaryTime, "Primary vertex time/D");
   // fNtuple->Branch("PPID", &fPrimaryPID, "Primary vertex PID/I");
   // fNtuple->Branch("PP", fPrimaryPos, "Primary vertex Position[3]/D");
   // fNtuple->Branch("PM", fPrimaryMom, "Primary vertex Momentum[3]/D");
   // fNtuple->Branch("PE", &fPrimaryEnergy, "Primary vertex Energy/D");
+
+  fNtuple_Flux = new TTree("t_Flux","Checking the energy shower profile in crystals");
+  fNtuple_Flux->Branch("evtNb", &fEvtNb, "Event number/I");
+  fNtuple_Flux->Branch("edep", fFluxEne, "Energy deposition per step[1080]/D");
+  fNtuple_Flux->Branch("x", fFluxPos_X, "Postion x per step[1080]/D");
+  fNtuple_Flux->Branch("y", fFluxPos_Y, "Postion y per step[1080]/D");
+  fNtuple_Flux->Branch("z", fFluxPos_Z, "Postion z per step[1080]/D");
+
 
   G4cout << "\n----> Output file is open in " << fileName << G4endl;
 
@@ -110,6 +124,11 @@ void HistoManager::FillNtuple()
   fNtuple->Fill();
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+void HistoManager::FillNtuple_Flux()
+{
+  fNtuple_Flux->Fill();
+}
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void HistoManager::Save()
@@ -137,11 +156,9 @@ void HistoManager::SetPrimaryParticle(G4double time, G4int PID, G4ThreeVector po
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void HistoManager::SetEnergyandPID(G4int id, G4int PID, G4double edep, G4int sc, G4int ce, G4int opc, G4int opfc, G4int oppc)
+void HistoManager::SetEnergy(G4int id, G4double edep, G4int sc, G4int ce, G4int opc, G4int opfc, G4int oppc)
 {
   fEdep[id] = edep;
-  fPID[id] = PID;
-
   fOP_sc[id] = sc;
   fOP_ce[id] = ce;
   fOP_cover[id] = opc;
@@ -149,4 +166,17 @@ void HistoManager::SetEnergyandPID(G4int id, G4int PID, G4double edep, G4int sc,
   fOP_pmtcover[id] = oppc;
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void HistoManager::SetFluxEnergy(G4int evtNb, G4int id, G4double edep, G4ThreeVector position)
+{
+
+  fEvtNb = evtNb;
+
+  for(int i = 0 ; i < MaxNtuple ; i++) {fFluxEne[i] = 0.; fFluxPos_X[i] = 0.; fFluxPos_Y[i] = 0.; fFluxPos_Z[i] = 0.;}
+  fFluxEne[id] = edep;
+  fFluxPos_X[id] = position.x();
+  fFluxPos_Y[id] = position.y();
+  fFluxPos_Z[id] = position.z();
+}
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -59,7 +59,7 @@ void CrystalCoverSD::Initialize(G4HCofThisEvent* hce)
 
   // fill calorimeter hits with zero energy deposition
   for (G4int iColumn=0 ; iColumn<36 ; iColumn++)
-    for (G4int iRow=0 ; iRow<31 ; iRow++)
+    for (G4int iRow=0 ; iRow<30 ; iRow++)
       {
 	CrystalCoverHit* hit = new CrystalCoverHit();
 	fHitsCollection->insert(hit);
@@ -80,10 +80,10 @@ G4bool CrystalCoverSD::ProcessHits(G4Step* step, G4TouchableHistory*)
     = (G4TouchableHistory*)(step->GetPreStepPoint()->GetTouchable());
 
   G4VPhysicalVolume* cellPhysical = touchable->GetVolume(2);
-  G4int rowNo = cellPhysical->GetCopyNo();//0~30(31) in total
+  G4int rowNo = cellPhysical->GetCopyNo();//0~29(30) in total
   G4VPhysicalVolume* columnPhysical = touchable->GetVolume(1);
   G4int columnNo = columnPhysical->GetCopyNo();//0~35(36) in total
-  G4int hitID = columnNo+36*rowNo;//0~1115(1116)
+  G4int hitID = columnNo+36*rowNo;//0~1079(1080)
 
   CrystalCoverHit* hit = (*fHitsCollection)[hitID];
 

@@ -44,7 +44,7 @@ class TTree;
 class TH1D;
 
 const G4int MaxHisto = 4;
-const G4int MaxNtuple = 1116;
+const G4int MaxNtuple = 1080;
 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -57,20 +57,21 @@ public:
    
   void Book(G4String);
   void FillNtuple();
+  void FillNtuple_Flux();
   void Save();
 
   void SetPrimaryParticle(G4double, G4int, G4ThreeVector, G4ThreeVector, G4double);
-  void SetEnergyandPID(G4int , G4int, G4double, G4int, G4int, G4int, G4int, G4int);
-  void SetOP(G4int , G4int );
+  void SetEnergy(G4int, G4double, G4int, G4int, G4int, G4int, G4int);
+  void SetFluxEnergy(G4int, G4int , G4double, G4ThreeVector);
  
   void PrintStatistic();
         
 private:
   TFile*   fRootFile;
   TTree*   fNtuple;
+  TTree*   fNtuple_Flux;
 
   G4double fEdep[MaxNtuple];
-  G4int    fPID[MaxNtuple];
   G4int    fOP_sc[MaxNtuple];
   G4int    fOP_ce[MaxNtuple];
   G4int    fOP_cover[MaxNtuple];
@@ -82,6 +83,12 @@ private:
   G4double fPrimaryPos[3];
   G4double fPrimaryMom[3];
   G4double fPrimaryEnergy;
+
+  G4int    fEvtNb;
+  G4double fFluxEne[MaxNtuple];
+  G4double fFluxPos_X[MaxNtuple];
+  G4double fFluxPos_Y[MaxNtuple];
+  G4double fFluxPos_Z[MaxNtuple];
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

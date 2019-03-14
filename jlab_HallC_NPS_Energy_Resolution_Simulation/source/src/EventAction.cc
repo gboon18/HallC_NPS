@@ -57,6 +57,8 @@ EventAction::EventAction(RunAction* run, HistoManager* histo)
   :G4UserEventAction(),
    fRunAct(run),fHistoManager(histo),
 
+   fEvtNb(0),
+
    fHCHCID(-1),fHadCalEdep(),
 
    fPID(),
@@ -68,11 +70,11 @@ EventAction::EventAction(RunAction* run, HistoManager* histo)
 {
   fPrintModulo = 100; 
 
-  fHadCalEdep.resize(1116,0.);
-  fPID.resize(1116,0),
+  fHadCalEdep.resize(1080,0.);
+  fPID.resize(1080,0),
 
-    fOP_sc.resize(1116,0), fOP_ce.resize(1116,0),
-    fCrystCoverOP.resize(1116,0), fCrystFrontCoverOP.resize(1116,0), fPMTcoverOP.resize(1116,0);
+    fOP_sc.resize(1080,0), fOP_ce.resize(1080,0),
+    fCrystCoverOP.resize(1080,0), fCrystFrontCoverOP.resize(1080,0), fPMTcoverOP.resize(1080,0);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -84,8 +86,8 @@ EventAction::~EventAction()
 
 void EventAction::BeginOfEventAction(const G4Event* evt)
 {  
-  G4int evtNb = evt->GetEventID();
-  if (evtNb%fPrintModulo == 0) 
+  fEvtNb = evt->GetEventID();
+  if (fEvtNb%fPrintModulo == 0) 
     //    G4cout << "\n---> Begin of event: " << evtNb << G4endl;
  
     if (fHCHCID==-1) {
@@ -170,14 +172,12 @@ void EventAction::EndOfEventAction(const G4Event* evt)
   }   
 
   // HCEnergy
-  for (G4int i=0;i<1116;i++)
+  for (G4int i=0;i<1080;i++)
     {
       B5HadCalorimeterHit* hit = (*hcHC)[i];
       G4double eDep = hit->GetEdep();//total energy deposition of each crystals
-      G4int PID = hit->GetPID();
 
       fHadCalEdep[i] = eDep;
-      fPID[i] = PID;
 
       CrystalCoverHit* CChit = (*CrystCoverHC)[i];
       CrystalFrontCoverHit* CFChit = (*CrystFrontCoverHC)[i];
@@ -197,10 +197,13 @@ void EventAction::EndOfEventAction(const G4Event* evt)
       G4int PMTcoverOP = PMTChit->GetOPInt();  
       fPMTcoverOP[i] = PMTcoverOP;
 
-      fHistoManager->SetEnergyandPID( i, fPID[i], fHadCalEdep[i], fOP_sc[i], fOP_ce[i], fCrystCoverOP[i], fCrystFrontCoverOP[i], fPMTcoverOP[i]);
+      fRunAct->AddEdepPerEvent( i, fHadCalEdep[i], fOP_sc[i], fOP_ce[i], fCrystCoverOP[i], fCrystFrontCoverOP[i], fPMTcoverOP[i]);
     }
-  
-  fHistoManager->FillNtuple();
 }
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+G4int EventAction::GetEventNb()
+{
+  return fEvtNb;
+}
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

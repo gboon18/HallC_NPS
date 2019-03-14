@@ -59,10 +59,15 @@ public:
 
   virtual void  BeginOfEventAction(const G4Event*);
   virtual void    EndOfEventAction(const G4Event*);
+
+public:
+  G4int GetEventNb();
     
 private:
    RunAction*    fRunAct;
    HistoManager* fHistoManager;
+
+  G4int fEvtNb;
 
   G4int fHCHCID;
   std::vector<G4double> fHadCalEdep;

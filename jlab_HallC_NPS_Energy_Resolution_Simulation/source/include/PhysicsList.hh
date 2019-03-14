@@ -23,27 +23,23 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file electromagnetic/TestEm9/include/PhysicsList.hh
+/// \file hadronic/Hadr01/include/PhysicsList.hh
 /// \brief Definition of the PhysicsList class
 //
-// $Id: PhysicsList.hh 82278 2014-06-13 14:42:11Z gcosmo $
 //
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+// $Id: PhysicsList.hh 101216 2016-11-09 13:54:13Z gcosmo $
 //
-//---------------------------------------------------------------------------
+/////////////////////////////////////////////////////////////////////////
 //
-// ClassName:   PhysicsList
+// PhysicsList
 //
-// Author:      V.Ivanchenko 14.10.2002
+// Created: 31.04.2006 V.Ivanchenko
 //
 // Modified:
-// 17.11.06 Use components from physics_lists subdirectory (V.Ivanchenko)
+// 04.06.2006 Adoptation of Hadr01 (V.Ivanchenko)
 //
-//----------------------------------------------------------------------------
-//
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+////////////////////////////////////////////////////////////////////////
+// 
 
 #ifndef PhysicsList_h
 #define PhysicsList_h 1
@@ -54,44 +50,41 @@
 class G4VPhysicsConstructor;
 class StepMax;
 class PhysicsListMessenger;
-
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 class PhysicsList: public G4VModularPhysicsList
 {
 public:
+
   PhysicsList();
   virtual ~PhysicsList();
 
   virtual void ConstructParticle();
-
-  virtual void ConstructProcess();
+  virtual void ConstructProcess();    
 
   void AddPhysicsList(const G4String& name);
+  void List();
+
   void AddStepMax();
 
 private:
 
-  // hide assignment operator
-  PhysicsList & operator=(const PhysicsList &right);
-  PhysicsList(const PhysicsList&);
+  void SetBuilderList0(G4bool flagHP = false);
+  void SetBuilderList1(G4bool flagHP = false);
+  void SetBuilderList2();
 
   G4VPhysicsConstructor*  fEmPhysicsList;
-  G4VPhysicsConstructor*  fDecayPhysicsList;
+  G4VPhysicsConstructor*  fParticleList;
 
+  // Optical Physics
   G4VPhysicsConstructor*  fOptPhysicsList;
 
-  std::vector<G4VPhysicsConstructor*> fHadronPhys;
-  G4String fEmName;
-
+  std::vector<G4VPhysicsConstructor*>  fHadronPhys;
+    
   StepMax* fStepMaxProcess;
 
   PhysicsListMessenger* fMessenger;
 
-  G4bool fHelIsRegisted;
-  G4bool fBicIsRegisted;
-  G4bool fGnucIsRegisted;
-  G4bool fStopIsRegisted;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

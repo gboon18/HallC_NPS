@@ -49,18 +49,28 @@ class RunAction : public G4UserRunAction
 {
 public:
 
-  RunAction(HistoManager*, G4String, long, long);
+  RunAction(HistoManager*, G4String, G4int, long, long);
   virtual ~RunAction();
 
   virtual void BeginOfRunAction(const G4Run*);
   virtual void   EndOfRunAction(const G4Run*);
+  void AddEdepPerEvent(G4int, G4double, G4int, G4int, G4int, G4int, G4int);
     
 private:
   HistoManager* fHistoManager;
 
   G4String fFileName;
 
-  long fSeed1, fSeed2;
+  G4double fEdep[1080];
+  G4int    fOP_sc[1080];
+  G4int    fOP_ce[1080];
+  G4int    fOP_cover[1080];
+  G4int    fOP_frontcover[1080];
+  G4int    fOP_pmtcover[1080];
+
+  G4int    fIndex, fIndex2;
+
+  long     fSeed1, fSeed2, fSeed3;
 
 };
 

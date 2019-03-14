@@ -41,13 +41,14 @@
 
 class DetectorConstruction;
 class EventAction;
+class HistoManager;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 class SteppingAction : public G4UserSteppingAction
 {
 public:
-  SteppingAction(DetectorConstruction*, EventAction*);
+  SteppingAction(DetectorConstruction*, EventAction*, HistoManager*);
   virtual ~SteppingAction();
 
   virtual void UserSteppingAction(const G4Step*);
@@ -55,6 +56,7 @@ public:
 private:
   DetectorConstruction* fDetector;
   EventAction*          fEventAction;  
+  HistoManager*         fHistoManager;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

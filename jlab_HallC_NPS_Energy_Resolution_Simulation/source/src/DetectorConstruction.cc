@@ -83,9 +83,9 @@ DetectorConstruction::DetectorConstruction(G4double gap_input)
   fDetectorMessenger(0)
 {
   //Initialized here. Some of the values change later on.
-  fWorld_X = 10*m;
-  fWorld_Y = 10*m;
-  fWorld_Z = 10*m;
+  fWorld_X = 4.5*m;
+  fWorld_Y = 4.5*m;
+  fWorld_Z = 4.5*m;
 
   gap = gap_input*mm;//input the size of the gap(carbon) between the crystals
 
@@ -101,7 +101,7 @@ DetectorConstruction::DetectorConstruction(G4double gap_input)
 
   fMom_X = 2575*mm;//mother volume, containes Temperature control box.
   fMom_Y = 2988*mm;//The crystals are inside the temperature control box.
-  fMom_Z = 794*mm;// The size is not realistic. Just big enough to contain 1116 crystals.
+  fMom_Z = 794*mm;// The size is not realistic. Just big enough to contain 1080 crystals.
   fMom_pos_X = 0*mm;
   fMom_pos_Y = 0*mm;
   fMom_pos_Z = 0*mm;
@@ -293,6 +293,13 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   fSingle_Y = fCrystal_Y + 2*fWrapThickness + gap;
   fSingle_Z = fCrystal_Z + fPMT_Z + fPMTcoverThickness + fWrapThickness;
 
+  fTemp_X = 30*fSingle_X + .1*mm;
+  fTemp_Y = 36*fSingle_Y + .1*mm;
+  fTemp_Z = fSingle_Z + .1*mm;
+  fMom_X = fTemp_X + .1*mm;
+  fMom_Y = fTemp_Y + .1*mm;
+  fMom_Z = fTemp_Z + .1*mm;
+
   fCrystal_pos_X = 0*mm;
   fCrystal_pos_Y = 0*mm;
   fCrystal_pos_Z = -(0.5*fSingle_Z - (0.5*fCrystal_Z + fWrapThickness));
@@ -300,7 +307,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   fPMT_pos_Y = 0*mm;
   fPMT_pos_Z = 0.5*fSingle_Z - (0.5*fPMT_Z + fPMTcoverThickness);
 
-  fMom_pos_Z = 4000*mm + 0.5*fSingle_Z;
+  fMom_pos_Z = 2000*mm + 0.5*fSingle_Z;
 
   fCheckOverlaps = true;//activate checing overlaps
 
@@ -325,7 +332,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   // Detector
   //
 
-  //Mother volume. Containes Temperature Control Box which contains 1116 Singles(Crystal box)
+  //Mother volume. Containes Temperature Control Box which contains 1080 Singles(Crystal box)
   G4Box*
     sMother = new G4Box("Mother_sol", 0.5*fMom_X, 0.5*fMom_Y, 0.5*fMom_Z);
 
@@ -377,7 +384,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 						 fWorldMater,//air
 						 "Single_log");
 
-  for(G4int ly = 0 ; ly < 31 ; ly++){
+  for(G4int ly = 0 ; ly < 30 ; ly++){
     for(G4int lx = 0 ; lx < 36 ; lx++){
       new G4PVPlacement(0,
 			G4ThreeVector(15*fSingle_X - ly*fSingle_X, -17.5*fSingle_Y + lx*fSingle_Y,0),

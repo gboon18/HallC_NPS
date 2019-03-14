@@ -49,7 +49,7 @@ target_link_libraries(NPS_Energy_Resolution ${Geant4_LIBRARIES} ${ROOT_LIBRARIES
 # relies on these scripts being in the current working directory.
 #
 set(NPS_Energy_Resolution_SCRIPTS
-    /macros/vis.mac /macros/mono_1GeV_directed_NPS.mac 
+    /macros/vis.mac /macros/test.mac 
   )
 
 foreach(_script ${NPS_Energy_Resolution_SCRIPTS})

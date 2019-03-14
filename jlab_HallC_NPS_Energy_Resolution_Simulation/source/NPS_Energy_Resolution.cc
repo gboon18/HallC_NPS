@@ -66,7 +66,8 @@ int main(int argc,char** argv)
 
   G4double gap;
   G4String fileNamee;
-  long seed1, seed2;
+  G4int    index;
+  long     seed1, seed2;
 
   G4cout<<"Size of the gap between the crystals?(Unit : mm)"<<G4endl;
   G4cin>>gap;
@@ -74,6 +75,8 @@ int main(int argc,char** argv)
   G4cout<<"Name of the output file?"<<G4endl;
   G4cin>>fileNamee;
 
+  G4cout<<"index for Rancu seed table?"<<G4endl;
+  G4cin>>index;
   G4cout<<"seed1?"<<G4endl;
   G4cin>>seed1;
   G4cout<<"seed2?"<<G4endl;
@@ -91,14 +94,14 @@ int main(int argc,char** argv)
     new PrimaryGeneratorAction(histo);
   runManager->SetUserAction(gen_action);
 
-  RunAction* run_action = new RunAction(histo, fileNamee, seed1, seed2);  
+  RunAction* run_action = new RunAction(histo, fileNamee, index, seed1, seed2);  
   runManager->SetUserAction(run_action);
 
   EventAction* event_action = new EventAction(run_action,histo);
   runManager->SetUserAction(event_action);
 
   SteppingAction* stepping_action =
-    new SteppingAction(detector, event_action);
+	  new SteppingAction(detector, event_action, histo);
   runManager->SetUserAction(stepping_action);
   
   G4UImanager* UImanager = G4UImanager::GetUIpointer();

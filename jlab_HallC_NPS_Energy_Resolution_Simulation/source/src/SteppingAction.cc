@@ -37,15 +37,19 @@
 
 #include "DetectorConstruction.hh"
 #include "EventAction.hh"
+#include "HistoManager.hh"
 
 #include "G4Step.hh"
+#include "G4TouchableHistory.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 SteppingAction::SteppingAction(DetectorConstruction* det,
-                                         EventAction* evt)
+				 EventAction* evt,
+				 HistoManager* histo)
 : G4UserSteppingAction(), 
-  fDetector(det), fEventAction(evt)                                         
+  fDetector(det), fEventAction(evt),
+  fHistoManager(histo)                                         
 { }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -55,7 +59,7 @@ SteppingAction::~SteppingAction()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void SteppingAction::UserSteppingAction(const G4Step* /* aStep */)
+void SteppingAction::UserSteppingAction(const G4Step* aStep)
 {
   // // get volume of the current step
   // G4VPhysicalVolume* volume 
@@ -67,6 +71,38 @@ void SteppingAction::UserSteppingAction(const G4Step* /* aStep */)
   // G4double stepl = 0.;
   // if (aStep->GetTrack()->GetDefinition()->GetPDGCharge() != 0.)
   //   stepl = aStep->GetStepLength();
+
+  G4VPhysicalVolume* volume_pre 
+    = aStep->GetPreStepPoint()->GetTouchableHandle()->GetVolume();
+
+  G4double edep = aStep->GetTotalEnergyDeposit();
+
+  if(
+     volume_pre->GetLogicalVolume()->GetName() == "Crystal_log"
+     ){
+
+    G4TouchableHistory* touchable
+      = (G4TouchableHistory*)(aStep->GetPreStepPoint()->GetTouchable());
+
+    G4VPhysicalVolume* cellPhysical = touchable->GetVolume(2);
+    G4int rowNo = cellPhysical->GetCopyNo();//0~29(30) in total
+    G4VPhysicalVolume* columnPhysical = touchable->GetVolume(1);
+    G4int columnNo = columnPhysical->GetCopyNo();//0~35(36) in total
+    G4int hitID = columnNo+36*rowNo;//0~1079(1080)
+    G4Track* track = aStep->GetTrack();
+    G4ThreeVector position = track->GetPosition();
+    const G4AffineTransform transformation = aStep->GetPreStepPoint()->GetTouchable()->GetHistory()->GetTopTransform();
+    G4ThreeVector localPosition = transformation.TransformPoint(position);
+
+    G4double eDep = aStep->GetTotalEnergyDeposit();
+
+    G4int evtNb = fEventAction->GetEventNb();
+    fHistoManager->SetFluxEnergy(evtNb, hitID, eDep, localPosition);
+    fHistoManager->FillNtuple_Flux();
+
+  }
+
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -7,7 +7,8 @@
 #
 #This is from TestEm9 20171019
 #must be intiated before /run/initialize
-/testem/phys/addPhysics  emstandard
+#/testem/phys/addPhysics  emstandard
+/testhadr/Physics QBBC
 #
 /run/initialize
 #
@@ -24,10 +25,10 @@
 
 /gps/source/intensity 1
 
-/gps/particle gamma
+/gps/particle e-
 /gps/pos/type Point
-/gps/ene/mono 1 GeV
-/gps/pos/centre 0.  0. +1000. mm
+/gps/ene/mono 10 GeV
+/gps/pos/centre 0.  0. -2000. mm
 
 /gps/ang/type iso
 #/gps/ang/minphi 0 rad
@@ -35,16 +36,13 @@
 #I do not know why but the beam center is in "-z" direction
 #you have to turn the beam 180 deg around
 /gps/ang/mintheta 180 deg
-/gps/ang/maxtheta 190.1586779 deg
-
+#/gps/ang/maxtheta 185.5735613202544 deg
+/gps/ang/maxtheta 187.8575299671185 deg
 
 #/gps/ang/minphi 231 deg
 #/gps/ang/maxphi 309 deg
 #/gps/ang/mintheta 267.5 deg
 #/gps/ang/maxtheta 272.5 deg
-
-
-
 
 
 ##############################################
@@ -58,4 +56,4 @@
 ################
 #
 /run/printProgress 1
-/run/beamOn 10
+/run/beamOn 25
