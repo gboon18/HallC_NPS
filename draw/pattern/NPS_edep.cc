@@ -1,9 +1,9 @@
 {
   gStyle->SetOptStat(0);
-  TFile *f = new TFile("../jlab_HallC_NPS_PbWO4/build/test.root", "READ");
+  TFile *f = new TFile("../../jlab_HallC_NPS_Energy_Resolution_Simulation/build/test.root", "READ");
   TTree *t = (TTree*)f->Get("t");
 
-  const int array = 1116;
+  const int array = 1080;
 
   double edep[array] = {0.};
   int op_pc[array] = {0};
@@ -15,9 +15,9 @@
 
   TH2D* h_edep = new TH2D("h_edep", "energy deposition in 2D", 30, 0, 30, 36, 0, 36);
   TH2D* h_op = new TH2D("h_op", "number of scintillated photon arrived at the PMT", 30, 0, 30, 36, 0, 36);
+
   for(int i = 0 ; i < t->GetEntries() ; i++){
     t->GetEntry(i);
-
     for(int j = 0 ; j < array ; j++){
       x = int(j/36);
       y = j%36;
