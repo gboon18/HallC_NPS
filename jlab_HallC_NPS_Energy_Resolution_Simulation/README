@@ -31,3 +31,7 @@ Field OFF : no sweeping magnet.
 Only Calorimeter exists.
 This is to plot shower profile.
 Every step in the simulation, deposited energy and position is recorded.
+
+20190320
+1116->1080
+Each event(primary beam), tree for the energy resolution is saved.

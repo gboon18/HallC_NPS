@@ -75,8 +75,6 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
   G4VPhysicalVolume* volume_pre 
     = aStep->GetPreStepPoint()->GetTouchableHandle()->GetVolume();
 
-  G4double edep = aStep->GetTotalEnergyDeposit();
-
   if(
      volume_pre->GetLogicalVolume()->GetName() == "Crystal_log"
      ){

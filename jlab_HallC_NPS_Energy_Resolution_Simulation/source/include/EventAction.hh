@@ -46,7 +46,6 @@
 
 #include "G4ThreeVector.hh"
 
-class RunAction;
 class HistoManager;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -54,7 +53,7 @@ class HistoManager;
 class EventAction : public G4UserEventAction
 {
 public:
-  EventAction(RunAction*, HistoManager*);
+  EventAction(HistoManager*);
   virtual ~EventAction();
 
   virtual void  BeginOfEventAction(const G4Event*);
@@ -64,7 +63,6 @@ public:
   G4int GetEventNb();
     
 private:
-   RunAction*    fRunAct;
    HistoManager* fHistoManager;
 
   G4int fEvtNb;

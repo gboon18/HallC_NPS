@@ -36,7 +36,6 @@
 
 #include "EventAction.hh"
 
-#include "RunAction.hh"
 #include "HistoManager.hh"
 
 #include "G4Event.hh"
@@ -53,9 +52,9 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-EventAction::EventAction(RunAction* run, HistoManager* histo)
+EventAction::EventAction(HistoManager* histo)
   :G4UserEventAction(),
-   fRunAct(run),fHistoManager(histo),
+   fHistoManager(histo),
 
    fEvtNb(0),
 
@@ -197,8 +196,9 @@ void EventAction::EndOfEventAction(const G4Event* evt)
       G4int PMTcoverOP = PMTChit->GetOPInt();  
       fPMTcoverOP[i] = PMTcoverOP;
 
-      fRunAct->AddEdepPerEvent( i, fHadCalEdep[i], fOP_sc[i], fOP_ce[i], fCrystCoverOP[i], fCrystFrontCoverOP[i], fPMTcoverOP[i]);
+      fHistoManager->SetEnergy( i, fHadCalEdep[i], fOP_sc[i], fOP_ce[i], fCrystCoverOP[i], fCrystFrontCoverOP[i], fPMTcoverOP[i]);
     }
+  fHistoManager->FillNtuple();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

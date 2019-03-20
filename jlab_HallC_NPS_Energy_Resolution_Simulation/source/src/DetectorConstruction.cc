@@ -387,7 +387,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   for(G4int ly = 0 ; ly < 30 ; ly++){
     for(G4int lx = 0 ; lx < 36 ; lx++){
       new G4PVPlacement(0,
-			G4ThreeVector(15*fSingle_X - ly*fSingle_X, -17.5*fSingle_Y + lx*fSingle_Y,0),
+			G4ThreeVector(14.5*fSingle_X - ly*fSingle_X, -17.5*fSingle_Y + lx*fSingle_Y,0),
 			lSingle,
 			"Single",
 			lTemp,//place the each Singles(which will be containing the cyrstal) inside the Temp control box

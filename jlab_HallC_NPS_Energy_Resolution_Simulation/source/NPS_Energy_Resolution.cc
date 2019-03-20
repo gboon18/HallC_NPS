@@ -97,7 +97,7 @@ int main(int argc,char** argv)
   RunAction* run_action = new RunAction(histo, fileNamee, index, seed1, seed2);  
   runManager->SetUserAction(run_action);
 
-  EventAction* event_action = new EventAction(run_action,histo);
+  EventAction* event_action = new EventAction(histo);
   runManager->SetUserAction(event_action);
 
   SteppingAction* stepping_action =
@@ -140,7 +140,6 @@ int main(int argc,char** argv)
   G4cout << "It took :"<< dt <<"for the job to be done." << G4endl;
 
   // Job termination
-  delete histo;                
   delete runManager;
 
   return 0;
