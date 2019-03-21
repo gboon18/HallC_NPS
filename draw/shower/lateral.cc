@@ -60,7 +60,7 @@
     for(int j = 0 ; j < array ; j++){
       x = int(j/36);
       y = j%36;
-      if(edep[j]){if(i%20000 == 0) cout<<"No Gap totEdep calculating : "<<(double)(1.0*i/t->GetEntries())*100<<"%"<<endl;
+      if(edep[j]){if(i%20000 == 0) cout<<"totEdep calculating : "<<(double)(1.0*i/t->GetEntries())*100<<"%"<<endl;
 	if(evtNb!=evtNb_store){ 
 	  evtNb_totcount++;
 	  if ((x!=0 && x!=1 && x!=28 && x!=29) && (y!=0 && y!=1 && y!=34 && y!=35)){
@@ -90,7 +90,7 @@
     for(int j = 0 ; j < array ; j++){
       x = int(j/36);
       y = j%36;
-      if(edep[j]){if(i%20000 == 0) cout<<"No Gap : "<<(double)(1.0*i/t->GetEntries())*100<<"%"<<endl;
+      if(edep[j]){if(i%20000 == 0) cout<<""<<(double)(1.0*i/t->GetEntries())*100<<"%"<<endl;
 	if(evtNb!=evtNb_store){
 	  if((x!=0 && x!=1 && x!=28 && x!=29) && (y!=0 && y!=1 && y!=34 && y!=35)){
 	    j_store = j;
