@@ -7,14 +7,14 @@
   double totedep = 0.0;// MeV
 
   TFile *f = new TFile("test.root");
-  TTree *t = f->Get("t_Flux");
+  TTree *t = (TTree *)f->Get("t_Flux");
 
   //call trees "and then" open write file
   TFile *f_write = new TFile("output/longitudinal.root", "RECREATE");
 
   const int array = 1080;
 
-  int x, y;
+  int x_int, y_int;
 
   double fCrystal_Z = 200.5;//mm
   double Z = 23; //Crystal length in X0 unit. 22.528088989
@@ -53,10 +53,10 @@
     t->GetEntry(i); if(i%20000 == 0)cout<<""<<(double)(1.0*i/ t->GetEntries())*100<<"%"<<endl;
     if(evtNb!=evtNb_store) {memset(edep_store, 0., sizeof(edep_store)); evtNb_store = evtNb;}
     for(int j = 0 ; j < array ; j++){
-      x = int(j/36);
-      y = j%36;
+      x_int = int(j/36);
+      y_int = j%36;
       edep_store[j] += edep[j];
-      h2D_1->Fill(x, y, edep[j]); 
+      h2D_1->Fill(x_int, y_int, edep[j]); 
     }
 
     t->GetEntry(i+1);
@@ -65,12 +65,12 @@
       highestEdep_x = -1;
       highestEdep_y = -1;
       for(int k = 0 ; k < array ; k++){
-	x = int(k/36);
-	y = k%36;
+	x_int = int(k/36);
+	y_int = k%36;
 	if(edep_store[k]>highestEdep){
 	  highestEdep = edep_store[k];
-	  highestEdep_x = x;
-	  highestEdep_y = y;
+	  highestEdep_x = x_int;
+	  highestEdep_y = y_int;
 	}
       }
       if((highestEdep_x!=0 && highestEdep_x!=1 && highestEdep_x!=28 && highestEdep_x!=29) 
@@ -88,9 +88,9 @@
     for(int k = 0 ; k < evtNb_goodcount.size() ; k++){
       if(evtNb == evtNb_goodcount[k]){
 	for(int j = 0 ; j < array ; j++){
-	  x = int(j/36);
-	  y = j%36;
-	  h2D_2->Fill(x, y, edep[j]);
+	  x_int = int(j/36);
+	  y_int = j%36;
+	  h2D_2->Fill(x_int, y_int, edep[j]);
 	  h->Fill((z[j] + 0.5*fCrystal_Z)/X0, edep[j]/totedep*percent);
 	}
       }

@@ -9,22 +9,22 @@
 
   c1->Update();
 
-  TLine *l2_1 = new TLine(21.9, 10**(gPad->GetUymin()), 21.9, 10**(gPad->GetUymax()));
+  TLine *l2_1 = new TLine(21.9, 10*(gPad->GetUymin()), 21.9, 10*(gPad->GetUymax()));
   l2_1->SetLineStyle(2);
   l2_1->SetLineColor(6);
   l2_1->Draw();
 
-  TLine *l2_2 = new TLine(21.9*2, 10**(gPad->GetUymin()), 21.9*2, 10**(gPad->GetUymax()));
+  TLine *l2_2 = new TLine(21.9*2, 10*(gPad->GetUymin()), 21.9*2, 10*(gPad->GetUymax()));
   l2_2->SetLineStyle(2);
   l2_2->SetLineColor(6);
   l2_2->Draw();
 
-  TLine *l2_3 = new TLine(21.9*3, 10**(gPad->GetUymin()), 21.9*3, 10**(gPad->GetUymax()));
+  TLine *l2_3 = new TLine(21.9*3, 10*(gPad->GetUymin()), 21.9*3, 10*(gPad->GetUymax()));
   l2_3->SetLineStyle(2);
   l2_3->SetLineColor(6);
   l2_3->Draw();
 
-  TLine *l2_4 = new TLine(21.9*4, 10**(gPad->GetUymin()), 21.9*4, 10**(gPad->GetUymax()));
+  TLine *l2_4 = new TLine(21.9*4, 10*(gPad->GetUymin()), 21.9*4, 10*(gPad->GetUymax()));
   l2_4->SetLineStyle(2);
   l2_4->SetLineColor(6);
   l2_4->Draw();
