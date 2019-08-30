@@ -23,11 +23,7 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-/// \file analysis/AnaEx02/AnaEx02.cc
-/// \brief Main program of the analysis/AnaEx02 example
-//
-//
-// $Id: AnaEx02.cc 81444 2014-05-28 14:28:20Z gcosmo $
+// Based on AnaEx02
 //
 //
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
