@@ -1,0 +1,45 @@
+/control/verbose 2
+/run/verbose 2
+
+#
+#randomization control
+#/random/setSeeds 0 1
+#
+#This is from TestEm9 20171019
+#must be intiated before /run/initialize
+/testhadr/Physics QBBC
+#
+/run/initialize
+#
+/process/list
+#
+#/grdm/selectVolume Target
+#/grdm/allVolumes
+#
+#20170208##################taken from test31.g4mac
+##20170307###################################
+# both guns will be fired at the same time
+#/gps/source/clear
+##############################################
+
+/gps/source/intensity 1
+
+/gps/particle e-
+/gps/pos/type Point
+/gps/ene/mono 10 GeV
+/gps/pos/centre 0.  0. -2000. mm
+
+/gps/direction 0. 0. 1.
+
+##############################################
+##############################################
+/gps/source/multiplevertex true
+##because of multipevetex, Radioactive decay products part is commented out 20170309
+##############################################
+/gps/source/list
+
+
+################
+#
+/run/printProgress 1
+/run/beamOn 25
