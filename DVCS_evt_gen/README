@@ -1,0 +1,48 @@
+20180709
+Using Bogdan's magnetic fields.
+Target Length : 10cm.
+
+20180719
+PhysicsList class has been changed from TestEm09's to B3's
+StepMax class is no more used(not has been used before)
+
+20180724
+Using FTFP_BERT physics list
+
+20180730
+target size changed 15cm, 5mm target cover
+
+20180801
+target size changed once more, 15cm length, 5cm diameter, 125um target cover
+Using physicslist from Hadr01.(hadron physics)
+
+20180814
+Reduce simulation time
+1. WorldMater : Air->Vacuum
+2. Kill track after detection.
+
+20190110
+Physical volumes always exist.
+Except sweeping magnet.
+Field ON  : sweeping magnet exist.
+Field OFF : no sweeping magnet. 
+
+20190419
+NPS calorimeter reconstruction software
+and DVCS event generator implemented.
+
+20190626
+DVCS generator generate scattered electron and photon
+with an asymmetric distribution. For both electron and photon
+ex) If the spectrometer angle is x,
+    larger number of particles are distributed in x+ side than in x- side. 
+
+20200721
+DVCS generator for JLab users
+
+20200722
+DVCS generator is generating events with exact acceptance of the calorimeter and HMS
+Acceptance can be larger.
+
+Need to re-check vertex smearing and RFunction.
+RFunction is the one used for the HRS in Hall A.
