@@ -41,7 +41,7 @@ ex) If the spectrometer angle is x,
 DVCS generator for JLab users
 
 20200722
-DVCS generator is generating events with exact acceptance of the calorimeter and HMS
+DVCS generator is generating events with an acceptance (1.1 times larger) of the calorimeter and HMS
 Acceptance can be larger.
 
 Need to re-check vertex smearing and RFunction.
