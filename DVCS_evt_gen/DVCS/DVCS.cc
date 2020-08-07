@@ -32,24 +32,10 @@
 //
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-/*
-//20171013(start)
-#ifdef G4MULTITHREADED
-#include "G4MTRunManager.hh"
-#else
-#include "G4RunManager.hh"
-#endif
-//20171013(finish)
-*/
+
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"
-//20171016(start)
-//20171123(start)
-//#include "dvcsPhysicsList.hh"
 #include "PhysicsList.hh"
-//20171123(finish)
-//#include "FTFP_BERT.hh"
-//20171016(finish)
 
 #include "DetectorConstruction.hh"
 #include "PrimaryGeneratorAction.hh"
@@ -58,19 +44,13 @@
 #include "SteppingAction.hh"
 #include "HistoManager.hh"
 
-//20180927(start)
 #include "B3StackingAction.hh"
-//20180927(finish)
 
-//20190409(start)
 #include "dvcsGlobals.hh"
 #include "TDVCSDB.h"
 #include "TCaloEvent.h"
-//20190409(finish)
 
-//20171019(start)
 #include <ctime>//for cout time
-//20171019(finish)
 
 #ifdef G4VIS_USE
 #include "G4VisExecutive.hh"
@@ -111,52 +91,28 @@ int main(int argc,char** argv)
   TDVCSDB *db=new TDVCSDB("dvcs", "clrlpc", 3306, "munoz", "");
 
   G4int run_number = atoi(argv[1]);
-  //20200727(start)
-  G4int pseudo_run_number = atoi(argv[3]);//0 : use hydrogen/proton target. 1 : use other targets.
-  //20200727(finish)
   G4double *Calo_distance;
   G4double *Calo_angle;
   G4double *BeamEnergy;
   G4double *HMSangle;
   G4double *HMSmomentum;
-  //20200727(start)
   G4double *SM_angle;
-  //20200727(finish)
 
-  // if(run_number <= 18){//DVCS run numbers
   Calo_distance=db->GetEntry_d("CALO_geom_Dist", run_number);
   Calo_angle=db->GetEntry_d("CALO_geom_Yaw", run_number);
   BeamEnergy = db->GetEntry_d("BEAM_param_Energy", run_number);
   HMSangle = db->GetEntry_d("SIMU_param_HMSangle", run_number);
   HMSmomentum = db->GetEntry_d("SIMU_param_HMSmomentum", run_number);
-  //20200727(start)
   SM_angle = db->GetEntry_d("SM_geom_Yaw", run_number);
-  //20200727(finish)
+
   dvcsGlobals::Ebeam = BeamEnergy[0];//[GeV]
   dvcsGlobals::HMS_angle = HMSangle[0];//[rad]
   dvcsGlobals::HMS_momentum = HMSmomentum[0];//[GeV]
   dvcsGlobals::Calo_distance = Calo_distance[0];//[cm]
   dvcsGlobals::Calo_angle = Calo_angle[0];//[rad]  
-  dvcsGlobals::target_type = 0; //"0" : proton, "1" : deutron
-  dvcsGlobals::target_gen_proc_type = 0;//"0" : proton, "1" : neutron, "2" : deutron
-  // }
-  if(pseudo_run_number == 1){
-    //Getting fake information from the data base. 
-    //No need to care, we are not going to use it.
-    Calo_distance=db->GetEntry_d("CALO_geom_Dist", run_number);
-    Calo_angle=db->GetEntry_d("CALO_geom_Yaw", run_number);
-    BeamEnergy = db->GetEntry_d("BEAM_param_Energy", run_number);
-    HMSangle = db->GetEntry_d("SIMU_param_HMSangle", run_number);
-    HMSmomentum = db->GetEntry_d("SIMU_param_HMSmomentum", run_number);
-    //
-    dvcsGlobals::Calo_distance = atof(argv[4]);//[cm]
-    dvcsGlobals::Calo_angle = atof(argv[5])*TMath::DegToRad();//[rad]
-    dvcsGlobals::Ebeam = atof(argv[6]);//[GeV]
-    dvcsGlobals::HMS_angle = atof(argv[7])*TMath::DegToRad();//[rad]
-    dvcsGlobals::HMS_momentum = atof(argv[8]);//[GeV]
-    dvcsGlobals::target_type = atoi(argv[9]); //"0" : hydrogen, "1" : deuterium
-    dvcsGlobals::target_gen_proc_type = atoi(argv[10]);//"0" : proton, "1" : neutron, "2" : deutron
-  }
+
+  dvcsGlobals::target_type = atoi(argv[3]); //"0" : hydrogen, "1" : deuterium
+  dvcsGlobals::target_gen_proc_type = atoi(argv[4]);//"0" : proton, "1" : neutron, "2" : deutron
 
   dvcsGlobals::run_number = run_number;
   dvcsGlobals::SM_angle = SM_angle[0];
@@ -176,7 +132,6 @@ int main(int argc,char** argv)
   G4cout<<"calo dist!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! : "<<dvcsGlobals::Calo_distance<<G4endl;
   G4cout<<"spectro angle!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! : "<<dvcsGlobals::HMS_angle*TMath::RadToDeg()<<G4endl;
 
-  //20191017(start)
   delete Calo_distance;
   delete Calo_angle;
   delete BeamEnergy;
@@ -184,71 +139,29 @@ int main(int argc,char** argv)
   delete HMSmomentum;
 
   delete db;
-  //20191017(finish)
 
-  //20190410(start)
-
-  /*
-  //20171013(start)
-  // Construct the default run manager
-  #ifdef G4MULTITHREADED
-  G4MTRunManager* runManager = new G4MTRunManager;
-  G4int nThreads = G4Threading::G4GetNumberOfCores();
-  if (argc==3) nThreads = G4UIcommand::ConvertToInt(argv[2]);
-  runManager->SetNumberOfThreads(nThreads);
-  #else
-  G4RunManager* runManager = new G4RunManager;
-  #endif
-  //20171013(finish)
-  */
-
-  //20180129(start)
   // Choose the Random engine
   G4Random::setTheEngine(new CLHEP::RanecuEngine);
-  //20180129(finish)
 
   G4RunManager* runManager = new G4RunManager;
+
   // Set mandatory initialization classes
   //
-  //20180118(start)
-  //20181026(start)
-  //20181026(finish)
-  //  DetectorConstruction* detector = new DetectorConstruction(gap, Calo_distance, Calo_angle, field);
-  //20190409(start)
-  // DetectorConstruction* detector = new DetectorConstruction(gap, Calo_distance, Calo_angle, field, field_str);
   DetectorConstruction* detector = new DetectorConstruction(dvcsGlobals::Calo_distance*10./*cm to mm*/, dvcsGlobals::Calo_angle/*radian*/, dvcsGlobals::SM_field_flag, dvcsGlobals::SM_field_str);
-  //20190409(finish)
-  //20181026(finish)
-  //  DetectorConstruction* detector = new DetectorConstruction();
   runManager->SetUserInitialization(detector);
-  //20180118(finish)
-  //
-  //20171016(start)
-  // runManager->SetUserInitialization(new FTFP_BERT);
-  //20171123(start) 
+
   PhysicsList* phys = new PhysicsList;
-  //dvcsPhysicsList* phys = new dvcsPhysicsList;
   runManager->SetUserInitialization(phys);          
-  //20171123(finish)
-  //20171016(finish)
+
   // set an HistoManager
   //
   HistoManager*  histo = new HistoManager();
       
-  // Set user action classes
-  //
-  //20171013(start)
-  /*
-    PrimaryGeneratorAction* gen_action = 
-    new PrimaryGeneratorAction(detector);
-  */ 
-
-  //20171201(start)
   G4String fileNamee;
   G4cout<<"Name of the output file?"<<G4endl;
   G4cin>>fileNamee;
-  //20180129(start)
-  G4int index;//20180720 added
+
+  G4int index;
   long seed1, seed2;
   G4cout<<"index for Rancu seed table?"<<G4endl;
   G4cin>>index;
@@ -257,82 +170,30 @@ int main(int argc,char** argv)
   G4cout<<"seed2?"<<G4endl;
   G4cin>>seed2;
 
-  //20190418(start)
-  //moved below EventAction
-  // //20190410(start)
-  // // PrimaryGeneratorAction* gen_action = 
-  // //   new PrimaryGeneratorAction();
-  // // runManager->SetUserAction(gen_action);
-  // PrimaryGeneratorAction* gen_action = 
-  //   new PrimaryGeneratorAction(seed1, seed2);
-  // runManager->SetUserAction(gen_action);
-  // //20190410(finish)
-  // //
-  // //20171013(finish)
-  //20190418(finish)
-
-  //  RunAction* run_action = new RunAction(histo, fileNamee);  
   RunAction* run_action = new RunAction(histo, fileNamee, index, seed1, seed2);  
-  //20180129(finish)
   runManager->SetUserAction(run_action);
-  //20171201(finish)
 
-  //
-  /*
-    RunAction* run_action = new RunAction(histo);  
-    runManager->SetUserAction(run_action);
-  */
-  //
-  //20190408(start)
-  // EventAction* event_action = new EventAction(run_action,histo);
-  //20190409(start)
-  // EventAction* event_action = new EventAction(run_action, gen_action, histo);
   EventAction* event_action = new EventAction(run_action, histo);
-  //20190409(finish)
-  //20190408(finish)
   runManager->SetUserAction(event_action);
-  //
-  //20190418(start)
-  //moved from above to put EventAction
+
   PrimaryGeneratorAction* gen_action = 
     new PrimaryGeneratorAction(event_action, seed1, seed2);
   runManager->SetUserAction(gen_action);
-  //20190418(finish)
 
-  //
   SteppingAction* stepping_action =
-    //20180622(start)
-    // new SteppingAction(detector, event_action);
     new SteppingAction(detector, event_action, histo);
-  //20180622(finish)  
   runManager->SetUserAction(stepping_action);
 
-  //20180927(start)
   //To kill track such as secondary particle(ex, "cerenkov")
   B3StackingAction* stack_action = new B3StackingAction;
   runManager->SetUserAction(stack_action);          
-  //20180927(finish)
 
-  // Initialize G4 kernel
-  //
-  //20171019(start)
-  //  runManager->Initialize();//in order to use "/testem/phys/addPhysics" command. Initialize in macro!
-  //add physics process before initializing!!
-  //20171019(finish)
-  // Get the pointer to the User Interface manager
-  //
   G4UImanager* UImanager = G4UImanager::GetUIpointer();
   
-  //20190412(start)
-  // if (argc!=1)   // batch mode
   if (argc == 3 || argc == 11)   // batch mode
-    //20190412(finish)
     {
       G4String command = "/control/execute ";
-      //20190412(start)
-      // G4String fileName = argv[1];
       G4String fileName = argv[2];
-      //20190412(finish)
       UImanager->ApplyCommand(command+fileName);    
     }
   else
@@ -352,7 +213,6 @@ int main(int argc,char** argv)
 #endif
     }
 
-  //20171019(start) 
   // current date/time based on current system
   time_t then = time(0);
   time_t diff = then - now;
@@ -362,13 +222,8 @@ int main(int argc,char** argv)
   tm* gmtm = gmtime(&diff);
   dt = asctime(gmtm);
   G4cout << "It took :"<< dt <<"for the job to be done." << G4endl;
-  //20171019(finish) 
 
   // Job termination
-  //20180622(start)
-  //deleted
-  //  delete histo;//20180622 deleted, why was I deleteing histo??
-  //20180622(finish) 
   delete runManager;
 
   return 0;

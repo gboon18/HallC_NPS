@@ -25,14 +25,22 @@ include(${Geant4_USE_FILE})
 #
 find_package(ROOT REQUIRED)
 
+# You need to tell CMake where to find the ROOT installation. This can be done in a number of ways:
+#   - ROOT built with classic configure/make use the provided $ROOTSYS/etc/cmake/FindROOT.cmake
+#   - ROOT built with CMake. Add in CMAKE_PREFIX_PATH the installation prefix for ROOT
+list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS})
+
+#---Define useful ROOT functions and macros (e.g. ROOT_GENERATE_DICTIONARY)
+include(${ROOT_USE_FILE})
+
 #----------------------------------------------------------------------------
 # Locate sources and headers for this project
 #
 include_directories(${PROJECT_SOURCE_DIR}/include 
                     ${PROJECT_SOURCE_DIR}/shared/include 
-                    /pbs/throng/clas/hosanko/DVCS/dvcs_gen
-                    /pbs/throng/clas/hosanko/NPS/NPS_SOFT
-                    /pbs/throng/clas/hosanko/DVCS/RFunction
+                    /work/hallc/nps/hosan/dvcs_gen
+                    /work/hallc/nps/hosan/NPS_SOFT
+                    /work/hallc/nps/hosan/RFunction
                     ${Geant4_INCLUDE_DIR}
                     ${ROOT_INCLUDE_DIR})
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc
@@ -56,11 +64,11 @@ set(TGenOme libTGenOme.so)
 set(TGenPi0 libTGenPi0.so)
 set(TGenPip libTGenPip.so)
 set(TGenRho libTGenRho.so)
-link_directories(/pbs/throng/clas/hosanko/DVCS/dvcs_gen)
+link_directories(/work/hallc/nps/hosan/dvcs_gen)
 
 #For software reconstruction
 set(libDVCS libDVCS.so)
-link_directories(/pbs/throng/clas/hosanko/NPS/NPS_SOFT)
+link_directories(/work/hallc/nps/hosan/NPS_SOFT)
 
 
 #----------------------------------------------------------------------------

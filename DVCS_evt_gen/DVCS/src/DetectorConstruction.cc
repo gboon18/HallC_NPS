@@ -318,7 +318,7 @@ void DetectorConstruction::DefineMaterials()
     fTargetMater = nist->FindOrBuildMaterial("G4_lH2");
   }
   if(targ_type == 1){
-    G4cout<<"DetectorConstruction, target type is liquid deutron"<<G4endl;
+    G4cout<<"DetectorConstruction, target type is liquid deuterium"<<G4endl;
     fTargetMater =  new G4Material("LD2",  1, 2.01*g/mole, 0.167*g/cm3, kStateLiquid, 22*kelvin);
   }
   //Target Cover Material Al
