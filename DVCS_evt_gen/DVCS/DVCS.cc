@@ -190,7 +190,7 @@ int main(int argc,char** argv)
 
   G4UImanager* UImanager = G4UImanager::GetUIpointer();
   
-  if (argc == 3 || argc == 11)   // batch mode
+  if (argc == 5)   // batch mode
     {
       G4String command = "/control/execute ";
       G4String fileName = argv[2];
