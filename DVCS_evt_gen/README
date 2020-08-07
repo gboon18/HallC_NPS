@@ -1,3 +1,25 @@
+20200807
+Important environment setting for this to work in JLab/ifarm.
+
+#Source the softenv script with the JLAB_VERSION tag as an argument
+source /site/12gev_phys/softenv.csh 2.3
+#ROOT ## needed (especially) when compiling the NPS photon reconstruction software
+setenv ROOTSYS /apps/root/5.34.36/root
+setenv LD_LIBRARY_PATH ${ROOTSYS}/lib:${LD_LIBRARY_PATH}
+setenv PATH ${ROOTSYS}/bin:${PATH} 
+#NPS photon reconstruction environment
+setenv NPS_SOFT /work/hallc/nps/hosan/NPS_SOFT
+setenv LD_LIBRARY_PATH ${NPS_SOFT}:${LD_LIBRARY_PATH}
+setenv PATH ${NPS_SOFT}:${PATH}
+#DVCS event generator for NPS environment #No need to do this but just in case.
+setenv DVCS_EVENT_GEN /work/hallc/nps/hosan/dvcs_gen
+setenv LD_LIBRARY_PATH ${DVCS_EVENT_GEN}:${LD_LIBRARY_PATH}
+setenv PATH ${DVCS_EVENT_GEN}:${PATH}
+#analyzer
+setenv ANALYZER /work/hallc/nps/hosan/analyzer-1.5.22
+setenv LD_LIBRARY_PATH ${ANALYZER}:${LD_LIBRARY_PATH}
+setenv PATH ${ANALYZER}:${PATH}
+
 20180709
 Using Bogdan's magnetic fields.
 Target Length : 10cm.
