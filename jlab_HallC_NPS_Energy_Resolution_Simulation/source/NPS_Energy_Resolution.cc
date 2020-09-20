@@ -64,13 +64,9 @@ int main(int argc,char** argv)
   // Set mandatory initialization classes
   //
 
-  G4double gap;
   G4String fileNamee;
   G4int    index;
   long     seed1, seed2;
-
-  G4cout<<"Size of the gap between the crystals?(Unit : mm)"<<G4endl;
-  G4cin>>gap;
 
   G4cout<<"Name of the output file?"<<G4endl;
   G4cin>>fileNamee;
@@ -82,7 +78,7 @@ int main(int argc,char** argv)
   G4cout<<"seed2?"<<G4endl;
   G4cin>>seed2;
 
-  DetectorConstruction* detector = new DetectorConstruction(gap);
+  DetectorConstruction* detector = new DetectorConstruction();
   runManager->SetUserInitialization(detector);
 
   PhysicsList* phys = new PhysicsList;

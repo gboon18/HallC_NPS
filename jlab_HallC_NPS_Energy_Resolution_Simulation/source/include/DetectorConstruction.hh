@@ -50,7 +50,7 @@ class SensitiveDetector;
 class DetectorConstruction : public G4VUserDetectorConstruction
 {
 public:
-  DetectorConstruction(G4double );
+  DetectorConstruction();
   ~DetectorConstruction();
 
 public:
@@ -105,6 +105,8 @@ private:
 
   G4double             gap;
 
+  G4double             fFrame_length;
+
   G4double             fCrystal_X;//PbWO4
   G4double             fCrystal_Y;//PbWO4
   G4double             fCrystal_Z;//PbWO4
@@ -115,9 +117,8 @@ private:
   G4double             fWrapThickness;
   G4double             fPMTcoverThickness;
 
-  G4double             fPMT_X;
-  G4double             fPMT_Y;
-  G4double             fPMT_Z;
+  G4double             fPMT_radius;
+  G4double             fPMT_length;
   G4double             fPMT_pos_X;
   G4double             fPMT_pos_Y;
   G4double             fPMT_pos_Z;

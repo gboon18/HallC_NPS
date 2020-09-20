@@ -206,7 +206,7 @@ void HistoManager::Book(G4String fileName)
   
   fNtuple = new TTree("t","Energy deposition and OP in crystas");
 
-  //temporary
+  //Energy deposition & optical photons for each event
   fNtuple->Branch("evtNb", &fEvtNb, "Event Number/I");
   fNtuple->Branch("edep", fEdep, "energy_deposition[1080]/D");
   //temporarily disabled, no op physics
