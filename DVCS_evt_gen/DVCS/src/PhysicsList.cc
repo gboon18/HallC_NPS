@@ -49,6 +49,8 @@
 #include "G4DecayPhysics.hh"
 #include "G4EmStandardPhysics.hh"
 
+// Needed for optical photon physics
+// Uncomment it when you want to use it
 //#include "G4OpticalPhysics.hh"
 
 #include "G4EmStandardPhysicsWVI.hh"
@@ -113,6 +115,8 @@ PhysicsList::PhysicsList() : G4VModularPhysicsList(),
   // EM physics
   fEmPhysicsList = new G4EmStandardPhysics(verboseLevel);
 
+  // Needed for optical photon physics
+  // Uncomment it when you want to use it
   // Optical Physics
   //  fOptPhysicsList = new G4OpticalPhysics();
 
@@ -126,6 +130,8 @@ PhysicsList::~PhysicsList()
   delete fParticleList;
   delete fEmPhysicsList;
 
+  // Needed for optical photon physics
+  // Uncomment it when you want to use it
   //  delete fOptPhysicsList;
 
   delete fStepMaxProcess;
@@ -140,6 +146,8 @@ PhysicsList::~PhysicsList()
 void PhysicsList::ConstructParticle()
 {
   fParticleList->ConstructParticle();
+  // Needed for optical photon physics
+  // Uncomment it when you want to use it
   //  fOptPhysicsList->ConstructParticle();
 }
 
@@ -151,6 +159,8 @@ void PhysicsList::ConstructProcess()
   fEmPhysicsList->ConstructProcess();
   fParticleList->ConstructProcess();
 
+  // Needed for optical photon physics
+  // Uncomment it when you want to use it
   //  fOptPhysicsList->ConstructProcess();
 
   for(size_t i=0; i<fHadronPhys.size(); i++) {
